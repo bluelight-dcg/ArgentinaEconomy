@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gráfico de Barras</title>
+<title>Interactive Bar Chart</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 </head>
 <body>
@@ -30,6 +30,22 @@ var config = {
     scales: {
       y: {
         beginAtZero: true
+      }
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            var label = context.dataset.label || '';
+            if (label) {
+              label += ': ';
+            }
+            if (context.parsed.y !== null) {
+              label += context.parsed.y + ' años';
+            }
+            return label;
+          }
+        }
       }
     }
   },
