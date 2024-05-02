@@ -3,52 +3,71 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Interactive Football Stats</title>
+<title>Interactive Population Chart</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 </head>
 <body>
-<canvas id="footballChart" width="400" height="200"></canvas>
+<canvas id="populationChart" width="600" height="400"></canvas>
 
 <script>
-// Data for the football stats
-var data = {
-  labels: ['Goals', 'Assists', 'Shots', 'Passes', 'Tackles'],
+// Data
+var grupos = ['0 a 15', '15 a 25', '25 a 40', '40 a 50', '50 a 65', '65 y más'];
+var frecuenciasRelativas = [0.2498, 0.1594, 0.2330, 0.1307, 0.1196, 0.0782];
+var frecuenciasAcumuladas = [3890126, 6371641, 9999556, 12035980, 13898859, 15116435];
+var colors = ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)', 'rgba(255, 159, 64, 0.5)'];
+
+// Create chart data
+var chartData = {
+  labels: grupos,
   datasets: [{
-    label: 'Player 1',
-    backgroundColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)'],
-    borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)'],
-    borderWidth: 1,
-    data: [20, 15, 50, 200, 100],
+    label: 'Frecuencia Relativa',
+    data: frecuenciasRelativas,
+    backgroundColor: colors,
+    borderWidth: 1
   }]
 };
 
-// Chart configuration
-var config = {
-  type: 'bar',
-  data: data,
-  options: {
-    scales: {
-      y: {
-        beginAtZero: true
-      }
-    },
-    onClick: function(event, elements) {
-      if (elements && elements.length) {
-        var index = elements[0].index;
-        var datasetIndex = elements[0].datasetIndex;
-        var color = 'rgba(255, 0, 0, 1)'; // Change color to red
-        data.datasets[datasetIndex].backgroundColor[index] = color;
-        myChart.update();
+// Create chart options
+var chartOptions = {
+  scales: {
+    y: {
+      beginAtZero: true,
+      title: {
+        display: true,
+        text: 'Frecuencia relativa'
       }
     }
   },
+  plugins: {
+    title: {
+      display: true,
+      text: 'Población por grupo etario del censo 2002 chileno'
+    }
+  }
 };
 
 // Create and display the chart
-var myChart = new Chart(
-  document.getElementById('footballChart'),
-  config
-);
+var ctx = document.getElementById('populationChart').getContext('2d');
+var myChart = new Chart(ctx, {
+  type: 'bar',
+  data: chartData,
+  options: chartOptions
+});
+
+// Add line chart for acumulated frequencies
+var lineData = {
+  labels: grupos,
+  datasets: [{
+    label: 'Frecuencia Acumulada',
+    data: frecuenciasAcumuladas,
+    borderColor: 'rgba(255, 99, 132, 1)',
+    borderWidth: 2,
+    fill: false,
+    type: 'line'
+  }]
+};
+myChart.data.datasets.push(lineData.datasets[0]);
+myChart.update();
 </script>
 </body>
 </html>
