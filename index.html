@@ -32,20 +32,12 @@ var config = {
         beginAtZero: true
       }
     },
-    plugins: {
-      tooltip: {
-        callbacks: {
-          label: function(context) {
-            var label = context.dataset.label || '';
-            if (label) {
-              label += ': ';
-            }
-            if (context.parsed.y !== null) {
-              label += context.parsed.y + ' años';
-            }
-            return label;
-          }
-        }
+    onClick: function(event, elements) {
+      if (elements && elements.length) {
+        var index = elements[0].index;
+        var label = data.labels[index];
+        var age = data.datasets[0].data[index];
+        alert(label + ' tiene ' + age + ' años.');
       }
     }
   },
