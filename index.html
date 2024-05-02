@@ -7,7 +7,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 </head>
 <body>
-<canvas id="barChart" width="400" height="400"></canvas>
+<canvas id="barChart" width="200" height="200"></canvas>
 
 <script>
 // Datos para el gráfico de barras
@@ -35,9 +35,10 @@ var config = {
     onClick: function(event, elements) {
       if (elements && elements.length) {
         var index = elements[0].index;
-        var label = data.labels[index];
-        var age = data.datasets[0].data[index];
-        alert(label + ' tiene ' + age + ' años.');
+        var datasetIndex = elements[0].datasetIndex;
+        var color = 'rgba(255, 0, 0, 1)'; // Change color to red
+        data.datasets[datasetIndex].backgroundColor[index] = color;
+        myChart.update();
       }
     }
   },
