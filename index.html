@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Bar Chart</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+</head>
+<body>
+<canvas id="barChart" width="200" height="200"></canvas>
+
+<script>
+// Datos para el gráfico de barras
+var data = {
+  labels: ['Juan', 'María', 'Carlos'],
+  datasets: [{
+    label: 'Edades',
+    backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)'],
+    borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)'],
+    borderWidth: 1,
+    data: [30, 28, 25],
+  }]
+};
+
+// Configuración del gráfico
+var config = {
+  type: 'bar',
+  data: data,
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    },
+    onClick: function(event, elements) {
+      if (elements && elements.length) {
+        var index = elements[0].index;
+        var datasetIndex = elements[0].datasetIndex;
+        var color = 'rgba(255, 0, 0, 1)'; // Change color to red
+        data.datasets[datasetIndex].backgroundColor[index] = color;
+        myChart.update();
+      }
+    }
+  },
+};
+
+// Crear y mostrar el gráfico
+var myChart = new Chart(
+  document.getElementById('barChart'),
+  config
+);
+</script>
+</body>
+</html>
