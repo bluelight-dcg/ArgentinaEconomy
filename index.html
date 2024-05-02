@@ -3,125 +3,115 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gráfico de Barras</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<title>Análisis de Datos</title>
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+</style>
 </head>
 <body>
 
-<div class="filter-container">
-  <label for="mes" class="filter-label">Mes:</label>
-  <select id="mes" class="filter-select">
-    <option value="Jan/00">Enero</option>
-    <option value="Feb/00">Febrero</option>
-    <option value="Mar/00">Marzo</option>
-    <option value="Apr/00">Abril</option>
-  </select>
+<h2>Tabla de Datos</h2>
 
-  <label for="representante" class="filter-label">Representante:</label>
-  <select id="representante" class="filter-select">
+<div>
+  <label for="mes">Seleccionar mes:</label>
+  <select id="mes" onchange="filtrarDatos()">
+    <option value="todos">Todos los meses</option>
+    <option value="Jan/00">Enero 2000</option>
+    <option value="Feb/00">Febrero 2000</option>
+    <option value="Mar/00">Marzo 2000</option>
+    <option value="Apr/00">Abril 2000</option>
+  </select>
+</div>
+
+<div>
+  <label for="representante">Seleccionar representante:</label>
+  <select id="representante" onchange="filtrarDatos()">
+    <option value="todos">Todos los representantes</option>
     <option value="Francisco">Francisco</option>
     <option value="Marcos">Marcos</option>
     <option value="Mariano">Mariano</option>
     <option value="Barbara">Barbara</option>
   </select>
+</div>
 
-  <label for="tipoPorcentaje" class="filter-label">Tipo de Porcentaje:</label>
-  <select id="tipoPorcentaje" class="filter-select">
+<div>
+  <label for="tipoPorcentaje">Seleccionar tipo de porcentaje:</label>
+  <select id="tipoPorcentaje" onchange="filtrarDatos()">
+    <option value="todos">Todos los tipos de porcentaje</option>
     <option value="Tiempo de respuesta">Tiempo de respuesta</option>
     <option value="Presentismo">Presentismo</option>
-    <option value="Nota capacitación">Nota capacitación</option>
+    <option value="Nota capacitación">Nota de capacitación</option>
     <option value="Satisfacción del cliente">Satisfacción del cliente</option>
   </select>
 </div>
 
-<canvas id="graficoBarras"></canvas>
+<table id="tablaDatos">
+  <thead>
+    <tr>
+      <th>Fecha</th>
+      <th>Representante</th>
+      <th>Tiempo de respuesta</th>
+      <th>Tiempo de respuesta Gral.</th>
+      <th>Presentismo</th>
+      <th>Presentismo Gral.</th>
+      <th>Nota de capacitación</th>
+      <th>Nota de capacitación Gral.</th>
+      <th>Satisfacción del cliente</th>
+      <th>Satisfacción del cliente Gral.</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Jan/00</td>
+      <td>Francisco</td>
+      <td>75,31%</td>
+      <td>53%</td>
+      <td>96%</td>
+      <td>14%</td>
+      <td>83%</td>
+      <td>4%</td>
+      <td>93%</td>
+      <td>9%</td>
+    </tr>
+    <!-- Agregar filas para el resto de los datos -->
+  </tbody>
+</table>
 
 <script>
-// Datos completos (puedes incluirlos directamente aquí o cargarlos desde un archivo externo)
-var datos = [
-  // Aquí van tus datos
-];
-
-// Función para filtrar los datos
 function filtrarDatos() {
   var mesSeleccionado = document.getElementById("mes").value;
   var representanteSeleccionado = document.getElementById("representante").value;
   var tipoPorcentajeSeleccionado = document.getElementById("tipoPorcentaje").value;
-
-  return datos.filter(function(dato) {
-    return dato.includes(mesSeleccionado) && dato.includes(representanteSeleccionado) && dato.includes(tipoPorcentajeSeleccionado);
-  });
-}
-
-// Función para obtener los valores a graficar
-function obtenerValores() {
-  var datosFiltrados = filtrarDatos();
-  var valores = [];
-
-  datosFiltrados.forEach(function(dato) {
-    var celdas = dato.split("\t");
-    valores.push(parseFloat(celdas[2])); // Cambiar el índice según el tipo de porcentaje que quieras graficar
-  });
-
-  return valores;
-}
-
-// Función para obtener las etiquetas del eje X
-function obtenerEtiquetas() {
-  var datosFiltrados = filtrarDatos();
-  var etiquetas = [];
-
-  datosFiltrados.forEach(function(dato) {
-    var celdas = dato.split("\t");
-    etiquetas.push(celdas[1]); // Cambiar el índice según el tipo de porcentaje que quieras graficar
-  });
-
-  return etiquetas;
-}
-
-// Crear el gráfico de barras
-var ctx = document.getElementById("graficoBarras").getContext("2d");
-var myChart = new Chart(ctx, {
-  type: 'bar',
-  data: {
-    labels: obtenerEtiquetas(),
-    datasets: [{
-      label: 'Porcentaje', // Cambiar la etiqueta según el tipo de porcentaje que estés graficando
-      data: obtenerValores(),
-      backgroundColor: 'rgba(54, 162, 235, 0.5)', // Color de las barras
-      borderColor: 'rgba(54, 162, 235, 1)',
-      borderWidth: 1
-    }]
-  },
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true
-        }
-      }]
+  
+  var tabla = document.getElementById("tablaDatos");
+  var filas = tabla.getElementsByTagName("tr");
+  
+  for (var i = 1; i < filas.length; i++) {
+    var celdas = filas[i].getElementsByTagName("td");
+    var fecha = celdas[0].innerText;
+    var representante = celdas[1].innerText;
+    var porcentaje = celdas[eval(`{${["2", "4", "6", "8"][["Tiempo de respuesta", "Presentismo", "Nota de capacitación", "Satisfacción del cliente"].indexOf(tipoPorcentajeSeleccionado)]}`)].innerText;
+    
+    if ((mesSeleccionado === "todos" || fecha === mesSeleccionado) &&
+        (representanteSeleccionado === "todos" || representante === representanteSeleccionado) &&
+        (tipoPorcentajeSeleccionado === "todos" || porcentaje)) {
+      filas[i].style.display = "";
+    } else {
+      filas[i].style.display = "none";
     }
   }
-});
-
-// Volver a actualizar el gráfico al cambiar algún filtro
-document.getElementById("mes").addEventListener("change", function() {
-  myChart.data.labels = obtenerEtiquetas();
-  myChart.data.datasets[0].data = obtenerValores();
-  myChart.update();
-});
-
-document.getElementById("representante").addEventListener("change", function() {
-  myChart.data.labels = obtenerEtiquetas();
-  myChart.data.datasets[0].data = obtenerValores();
-  myChart.update();
-});
-
-document.getElementById("tipoPorcentaje").addEventListener("change", function() {
-  myChart.data.labels = obtenerEtiquetas();
-  myChart.data.datasets[0].data = obtenerValores();
-  myChart.update();
-});
+}
 </script>
 
 </body>
