@@ -3,37 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tabla de Datos</title>
-<style>
-/* Estilos para la tabla */
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-th, td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: center;
-}
-
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-/* Estilos para los filtros */
-.filter-container {
-  margin-bottom: 20px;
-}
-
-.filter-label {
-  font-weight: bold;
-}
-
-.filter-select {
-  margin-left: 10px;
-}
-</style>
+<title>Gráfico de Barras</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -63,9 +34,7 @@ tr:nth-child(even) {
   </select>
 </div>
 
-<table id="tablaDatos">
-  <!-- Aquí se insertarán los datos filtrados -->
-</table>
+<canvas id="graficoBarras"></canvas>
 
 <script>
 // Datos completos (puedes incluirlos directamente aquí o cargarlos desde un archivo externo)
@@ -73,36 +42,86 @@ var datos = [
   // Aquí van tus datos
 ];
 
-// Función para filtrar y mostrar los datos
-function mostrarDatos() {
+// Función para filtrar los datos
+function filtrarDatos() {
   var mesSeleccionado = document.getElementById("mes").value;
   var representanteSeleccionado = document.getElementById("representante").value;
   var tipoPorcentajeSeleccionado = document.getElementById("tipoPorcentaje").value;
 
-  var datosFiltrados = datos.filter(function(dato) {
+  return datos.filter(function(dato) {
     return dato.includes(mesSeleccionado) && dato.includes(representanteSeleccionado) && dato.includes(tipoPorcentajeSeleccionado);
-  });
-
-  var tabla = document.getElementById("tablaDatos");
-  tabla.innerHTML = ""; // Limpiar tabla
-
-  datosFiltrados.forEach(function(dato) {
-    var fila = tabla.insertRow();
-    var celdas = dato.split("\t");
-    celdas.forEach(function(valor) {
-      var celda = fila.insertCell();
-      celda.textContent = valor;
-    });
   });
 }
 
-// Mostrar datos al cargar la página
-mostrarDatos();
+// Función para obtener los valores a graficar
+function obtenerValores() {
+  var datosFiltrados = filtrarDatos();
+  var valores = [];
 
-// Volver a mostrar los datos al cambiar algún filtro
-document.getElementById("mes").addEventListener("change", mostrarDatos);
-document.getElementById("representante").addEventListener("change", mostrarDatos);
-document.getElementById("tipoPorcentaje").addEventListener("change", mostrarDatos);
+  datosFiltrados.forEach(function(dato) {
+    var celdas = dato.split("\t");
+    valores.push(parseFloat(celdas[2])); // Cambiar el índice según el tipo de porcentaje que quieras graficar
+  });
+
+  return valores;
+}
+
+// Función para obtener las etiquetas del eje X
+function obtenerEtiquetas() {
+  var datosFiltrados = filtrarDatos();
+  var etiquetas = [];
+
+  datosFiltrados.forEach(function(dato) {
+    var celdas = dato.split("\t");
+    etiquetas.push(celdas[1]); // Cambiar el índice según el tipo de porcentaje que quieras graficar
+  });
+
+  return etiquetas;
+}
+
+// Crear el gráfico de barras
+var ctx = document.getElementById("graficoBarras").getContext("2d");
+var myChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: obtenerEtiquetas(),
+    datasets: [{
+      label: 'Porcentaje', // Cambiar la etiqueta según el tipo de porcentaje que estés graficando
+      data: obtenerValores(),
+      backgroundColor: 'rgba(54, 162, 235, 0.5)', // Color de las barras
+      borderColor: 'rgba(54, 162, 235, 1)',
+      borderWidth: 1
+    }]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  }
+});
+
+// Volver a actualizar el gráfico al cambiar algún filtro
+document.getElementById("mes").addEventListener("change", function() {
+  myChart.data.labels = obtenerEtiquetas();
+  myChart.data.datasets[0].data = obtenerValores();
+  myChart.update();
+});
+
+document.getElementById("representante").addEventListener("change", function() {
+  myChart.data.labels = obtenerEtiquetas();
+  myChart.data.datasets[0].data = obtenerValores();
+  myChart.update();
+});
+
+document.getElementById("tipoPorcentaje").addEventListener("change", function() {
+  myChart.data.labels = obtenerEtiquetas();
+  myChart.data.datasets[0].data = obtenerValores();
+  myChart.update();
+});
 </script>
 
 </body>
