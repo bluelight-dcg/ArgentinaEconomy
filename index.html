@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Interactive Population Chart with Filter</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<style>
+  #chartContainer {
+    width: 100%;
+    max-width: 800px; /* Adjust max-width as needed */
+    height: calc(100vw * 9 / 16); /* Calculate height based on 16:9 aspect ratio */
+    max-height: 450px; /* Adjust max-height as needed */
+  }
+</style>
 </head>
 <body>
 <div>
@@ -14,7 +22,9 @@
     <option value="frecuenciaAcumulada">Frecuencia Acumulada</option>
   </select>
 </div>
-<canvas id="populationChart" width="600" height="400"></canvas>
+<div id="chartContainer">
+  <canvas id="populationChart"></canvas>
+</div>
 
 <script>
 // Data
