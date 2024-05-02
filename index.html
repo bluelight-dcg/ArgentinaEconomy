@@ -1,101 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Interactive Population Chart with Filter</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<title>Tabla de Datos</title>
 <style>
-  body, html {
-    height: 100%;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+/* Estilos para la tabla */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
 
-  #chartContainer {
-    width: 100%;
-    max-width: 800px; /* Adjust max-width as needed */
-    height: calc(100vw * 9 / 16); /* Calculate height based on 16:9 aspect ratio */
-    max-height: 450px; /* Adjust max-height as needed */
-  }
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Estilos para los filtros */
+.filter-container {
+  margin-bottom: 20px;
+}
+
+.filter-label {
+  font-weight: bold;
+}
+
+.filter-select {
+  margin-left: 10px;
+}
 </style>
 </head>
 <body>
-<div>
-  <label for="filter">Choose a filter:</label>
-  <select id="filter" onchange="updateChart()">
-    <option value="frecuenciaRelativa">Frecuencia Relativa</option>
-    <option value="frecuenciaAcumulada">Frecuencia Acumulada</option>
+
+<div class="filter-container">
+  <label for="mes" class="filter-label">Mes:</label>
+  <select id="mes" class="filter-select">
+    <option value="Jan/00">Enero</option>
+    <option value="Feb/00">Febrero</option>
+    <option value="Mar/00">Marzo</option>
+    <option value="Apr/00">Abril</option>
+  </select>
+
+  <label for="representante" class="filter-label">Representante:</label>
+  <select id="representante" class="filter-select">
+    <option value="Francisco">Francisco</option>
+    <option value="Marcos">Marcos</option>
+    <option value="Mariano">Mariano</option>
+    <option value="Barbara">Barbara</option>
+  </select>
+
+  <label for="tipoPorcentaje" class="filter-label">Tipo de Porcentaje:</label>
+  <select id="tipoPorcentaje" class="filter-select">
+    <option value="Tiempo de respuesta">Tiempo de respuesta</option>
+    <option value="Presentismo">Presentismo</option>
+    <option value="Nota capacitación">Nota capacitación</option>
+    <option value="Satisfacción del cliente">Satisfacción del cliente</option>
   </select>
 </div>
-<div id="chartContainer">
-  <canvas id="populationChart"></canvas>
-</div>
+
+<table id="tablaDatos">
+  <!-- Aquí se insertarán los datos filtrados -->
+</table>
 
 <script>
-// Data
-var grupos = ['0 a 15', '15 a 25', '25 a 40', '40 a 50', '50 a 65', '65 y más'];
-var frecuenciasRelativas = [0.2498, 0.1594, 0.2330, 0.1307, 0.1196, 0.0782];
-var frecuenciasAcumuladas = [3890126, 6371641, 9999556, 12035980, 13898859, 15116435];
-var colors = ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)', 'rgba(255, 159, 64, 0.5)'];
+// Datos completos (puedes incluirlos directamente aquí o cargarlos desde un archivo externo)
+var datos = [
+  // Aquí van tus datos
+];
 
-// Initial filter
-var selectedFilter = 'frecuenciaRelativa';
+// Función para filtrar y mostrar los datos
+function mostrarDatos() {
+  var mesSeleccionado = document.getElementById("mes").value;
+  var representanteSeleccionado = document.getElementById("representante").value;
+  var tipoPorcentajeSeleccionado = document.getElementById("tipoPorcentaje").value;
 
-// Create chart data
-var chartData = {
-  labels: grupos,
-  datasets: [{
-    label: 'Frecuencia Relativa',
-    data: frecuenciasRelativas,
-    backgroundColor: colors,
-    borderWidth: 1
-  }]
-};
+  var datosFiltrados = datos.filter(function(dato) {
+    return dato.includes(mesSeleccionado) && dato.includes(representanteSeleccionado) && dato.includes(tipoPorcentajeSeleccionado);
+  });
 
-// Create chart options
-var chartOptions = {
-  scales: {
-    y: {
-      beginAtZero: true,
-      title: {
-        display: true,
-        text: 'Frecuencia relativa'
-      }
-    }
-  },
-  plugins: {
-    title: {
-      display: true,
-      text: 'Población por grupo etario del censo 2002 chileno'
-    }
-  }
-};
+  var tabla = document.getElementById("tablaDatos");
+  tabla.innerHTML = ""; // Limpiar tabla
 
-// Create and display the chart
-var ctx = document.getElementById('populationChart').getContext('2d');
-var myChart = new Chart(ctx, {
-  type: 'bar',
-  data: chartData,
-  options: chartOptions
-});
-
-// Function to update chart based on selected filter
-function updateChart() {
-  var filter = document.getElementById('filter').value;
-  if (filter === 'frecuenciaRelativa') {
-    myChart.data.datasets[0].data = frecuenciasRelativas;
-    myChart.options.scales.y.title.text = 'Frecuencia relativa';
-    myChart.data.datasets[0].label = 'Frecuencia Relativa';
-  } else if (filter === 'frecuenciaAcumulada') {
-    myChart.data.datasets[0].data = frecuenciasAcumuladas;
-    myChart.options.scales.y.title.text = 'Frecuencia acumulada';
-    myChart.data.datasets[0].label = 'Frecuencia Acumulada';
-  }
-  myChart.update();
+  datosFiltrados.forEach(function(dato) {
+    var fila = tabla.insertRow();
+    var celdas = dato.split("\t");
+    celdas.forEach(function(valor) {
+      var celda = fila.insertCell();
+      celda.textContent = valor;
+    });
+  });
 }
+
+// Mostrar datos al cargar la página
+mostrarDatos();
+
+// Volver a mostrar los datos al cambiar algún filtro
+document.getElementById("mes").addEventListener("change", mostrarDatos);
+document.getElementById("representante").addEventListener("change", mostrarDatos);
+document.getElementById("tipoPorcentaje").addEventListener("change", mostrarDatos);
 </script>
+
 </body>
 </html>
