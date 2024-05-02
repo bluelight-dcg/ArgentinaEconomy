@@ -3,10 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Interactive Population Chart</title>
+<title>Interactive Population Chart with Filter</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 </head>
 <body>
+<div>
+  <label for="filter">Choose a filter:</label>
+  <select id="filter" onchange="updateChart()">
+    <option value="frecuenciaRelativa">Frecuencia Relativa</option>
+    <option value="frecuenciaAcumulada">Frecuencia Acumulada</option>
+  </select>
+</div>
 <canvas id="populationChart" width="600" height="400"></canvas>
 
 <script>
@@ -15,6 +22,9 @@ var grupos = ['0 a 15', '15 a 25', '25 a 40', '40 a 50', '50 a 65', '65 y más']
 var frecuenciasRelativas = [0.2498, 0.1594, 0.2330, 0.1307, 0.1196, 0.0782];
 var frecuenciasAcumuladas = [3890126, 6371641, 9999556, 12035980, 13898859, 15116435];
 var colors = ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)', 'rgba(255, 159, 64, 0.5)'];
+
+// Initial filter
+var selectedFilter = 'frecuenciaRelativa';
 
 // Create chart data
 var chartData = {
@@ -54,20 +64,20 @@ var myChart = new Chart(ctx, {
   options: chartOptions
 });
 
-// Add line chart for acumulated frequencies
-var lineData = {
-  labels: grupos,
-  datasets: [{
-    label: 'Frecuencia Acumulada',
-    data: frecuenciasAcumuladas,
-    borderColor: 'rgba(255, 99, 132, 1)',
-    borderWidth: 2,
-    fill: false,
-    type: 'line'
-  }]
-};
-myChart.data.datasets.push(lineData.datasets[0]);
-myChart.update();
+// Function to update chart based on selected filter
+function updateChart() {
+  var filter = document.getElementById('filter').value;
+  if (filter === 'frecuenciaRelativa') {
+    myChart.data.datasets[0].data = frecuenciasRelativas;
+    myChart.options.scales.y.title.text = 'Frecuencia relativa';
+    myChart.data.datasets[0].label = 'Frecuencia Relativa';
+  } else if (filter === 'frecuenciaAcumulada') {
+    myChart.data.datasets[0].data = frecuenciasAcumuladas;
+    myChart.options.scales.y.title.text = 'Frecuencia acumulada';
+    myChart.data.datasets[0].label = 'Frecuencia Acumulada';
+  }
+  myChart.update();
+}
 </script>
 </body>
 </html>
