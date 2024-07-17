@@ -10,26 +10,7 @@
 <h2>Informe de Power BI</h2>
 <iframe id="powerBiFrame" title="Cobranzas Mayo_24" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=a623458c-5dad-4bce-8a76-22ea6412ddeb&autoAuth=true&embeddedDemo=true" frameborder="0" allowFullScreen="true"></iframe>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    var iframe = document.getElementById("powerBiFrame");
-    iframe.onload = function() {
-      var doc = iframe.contentDocument || iframe.contentWindow.document;
-      var email = "estudiantes@unab.edu.ar";  // Reemplaza con tu email
-      var password = "Fr@ndj2312";  // Reemplaza con tu contraseña
-      
-      var emailField = doc.querySelector("input[type='email']");
-      var passwordField = doc.querySelector("input[type='password']");
-      var submitButton = doc.querySelector("button[type='submit']");
-
-      if (emailField && passwordField && submitButton) {
-        emailField.value = email;
-        passwordField.value = password;
-        submitButton.click();
-      }
-    }
-  });
-</script>
+<script src="https://tu_usuario.github.io/tu_repositorio/autoLogin.js"></script>
 
 </body>
 </html>
