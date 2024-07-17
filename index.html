@@ -3,116 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Análisis de Datos</title>
-<style>
-  table {
-    border-collapse: collapse;
-    width: 100%;
-  }
-  th, td {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
-  th {
-    background-color: #f2f2f2;
-  }
-</style>
+<title>Informe de Power BI</title>
 </head>
 <body>
 
-<h2>Tabla de Datos</h2>
-
-<div>
-  <label for="mes">Seleccionar mes:</label>
-  <select id="mes" onchange="filtrarDatos()">
-    <option value="todos">Todos los meses</option>
-    <option value="Jan/00">Enero 2000</option>
-    <option value="Feb/00">Febrero 2000</option>
-    <option value="Mar/00">Marzo 2000</option>
-    <option value="Apr/00">Abril 2000</option>
-  </select>
-</div>
-
-<div>
-  <label for="representante">Seleccionar representante:</label>
-  <select id="representante" onchange="filtrarDatos()">
-    <option value="todos">Todos los representantes</option>
-    <option value="Francisco">Francisco</option>
-    <option value="Marcos">Marcos</option>
-    <option value="Mariano">Mariano</option>
-    <option value="Barbara">Barbara</option>
-  </select>
-</div>
-
-<div>
-  <label for="tipoPorcentaje">Seleccionar tipo de porcentaje:</label>
-  <select id="tipoPorcentaje" onchange="filtrarDatos()">
-    <option value="todos">Todos los tipos de porcentaje</option>
-    <option value="Tiempo de respuesta">Tiempo de respuesta</option>
-    <option value="Presentismo">Presentismo</option>
-    <option value="Nota capacitación">Nota de capacitación</option>
-    <option value="Satisfacción del cliente">Satisfacción del cliente</option>
-  </select>
-</div>
-
-<table id="tablaDatos">
-  <thead>
-    <tr>
-      <th>Fecha</th>
-      <th>Representante</th>
-      <th>Tiempo de respuesta</th>
-      <th>Tiempo de respuesta Gral.</th>
-      <th>Presentismo</th>
-      <th>Presentismo Gral.</th>
-      <th>Nota de capacitación</th>
-      <th>Nota de capacitación Gral.</th>
-      <th>Satisfacción del cliente</th>
-      <th>Satisfacción del cliente Gral.</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Jan/00</td>
-      <td>Francisco</td>
-      <td>75,31%</td>
-      <td>53%</td>
-      <td>96%</td>
-      <td>14%</td>
-      <td>83%</td>
-      <td>4%</td>
-      <td>93%</td>
-      <td>9%</td>
-    </tr>
-    <!-- Agregar filas para el resto de los datos -->
-  </tbody>
-</table>
-
-<script>
-function filtrarDatos() {
-  var mesSeleccionado = document.getElementById("mes").value;
-  var representanteSeleccionado = document.getElementById("representante").value;
-  var tipoPorcentajeSeleccionado = document.getElementById("tipoPorcentaje").value;
-  
-  var tabla = document.getElementById("tablaDatos");
-  var filas = tabla.getElementsByTagName("tr");
-  
-  for (var i = 1; i < filas.length; i++) {
-    var celdas = filas[i].getElementsByTagName("td");
-    var fecha = celdas[0].innerText;
-    var representante = celdas[1].innerText;
-    var porcentaje = celdas[eval(`{${["2", "4", "6", "8"][["Tiempo de respuesta", "Presentismo", "Nota de capacitación", "Satisfacción del cliente"].indexOf(tipoPorcentajeSeleccionado)]}`)].innerText;
-    
-    if ((mesSeleccionado === "todos" || fecha === mesSeleccionado) &&
-        (representanteSeleccionado === "todos" || representante === representanteSeleccionado) &&
-        (tipoPorcentajeSeleccionado === "todos" || porcentaje)) {
-      filas[i].style.display = "";
-    } else {
-      filas[i].style.display = "none";
-    }
-  }
-}
-</script>
+<h2>Informe de Power BI</h2>
+<iframe title="Cobranzas Mayo_24" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=a623458c-5dad-4bce-8a76-22ea6412ddeb&autoAuth=true&embeddedDemo=true" frameborder="0" allowFullScreen="true"></iframe>
 
 </body>
 </html>
