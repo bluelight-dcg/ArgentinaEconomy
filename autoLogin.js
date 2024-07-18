@@ -8,8 +8,8 @@ document.addEventListener("DOMContentLoaded", function() {
       var doc = iframe.contentDocument || iframe.contentWindow.document;
       
       // Intentar encontrar y rellenar los campos de email y contraseña
-      var emailField = doc.querySelector("input[type='email']");
-      var passwordField = doc.querySelector("input[type='password']");
+      var emailField = doc.querySelector("input[type='estudiantes@unab.edu.ar']");
+      var passwordField = doc.querySelector("input[type='Fr@ndj2312']");
       var nextButton = doc.querySelector("input[type='submit'], button[type='submit'], input[type='button'], button[type='button']");
   
       if (emailField && passwordField && nextButton) {
