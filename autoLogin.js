@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    fetch('https://github.com/websiteonline/file1/blob/main/loginData.json')
+    fetch('loginData.json')
         .then(response => response.json())
         .then(data => {
             var email = data.email;
