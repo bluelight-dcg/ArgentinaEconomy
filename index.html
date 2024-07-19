@@ -1,23 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON Example</title>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            fetch('data.json')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('greeting').innerText = data.greeting;
-                    document.getElementById('target').innerText = data.target;
-                })
-                .catch(error => console.error('Error loading JSON:', error));
-        });
-    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Informe de Power BI</title>
 </head>
 <body>
-    <h1 id="greeting"></h1>
-    <h2 id="target"></h2>
+
+<h2>Informe de Power BI</h2>
+<iframe id="powerBiFrame" title="Cobranzas Mayo_24" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=a623458c-5dad-4bce-8a76-22ea6412ddeb&autoAuth=true&embeddedDemo=true" frameborder="0" allowFullScreen="true"></iframe>
+
+<script src="https://tu_usuario.github.io/tu_repositorio/autoLogin.js"></script>
+
 </body>
 </html>
