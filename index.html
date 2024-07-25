@@ -38,8 +38,8 @@
   function setIframeSource() {
     var iframe = document.getElementById("powerBiFrame");
     var isMobile = window.innerWidth <= 768;
-    var srcMobile = "https://app.powerbi.com/view?r=eyJrIjoiMWVlY2ZkODUtMzRhOS00YTc0LTlkYjEtMjZjNWQwYjA3YWYwIiwidCI6IjFmNjM4NzAwLTIyZDItNGViYS1hNTA5LWVkZWJlNGY1OTc3ZiJ9&pageName=ReportSectionf1821c92443845631b1f";
-    var srcDesktop = "https://app.powerbi.com/view?r=eyJrIjoiYTI2YjYxYWUtMjlkOC00NmM5LWE3NGUtN2FhMDY1NjM5NjI2IiwidCI6IjFmNjM4NzAwLTIyZDItNGViYS1hNTA5LWVkZWJlNGY1OTc3ZiJ9";
+    var srcMobile = "https://app.powerbi.com/view?r=eyJrIjoiZjQ4NjNhNWUtN2JjMi00NjNlLTkzYzQtYzQwZTA0NjFhZDE5IiwidCI6IjFmNjM4NzAwLTIyZDItNGViYS1hNTA5LWVkZWJlNGY1OTc3ZiJ9&pageName=11a7cc977dc0bbe5ea9a";
+    var srcDesktop = "https://app.powerbi.com/view?r=eyJrIjoiMWVlY2ZkODUtMzRhOS00YTc0LTlkYjEtMjZjNWQwYjA3YWYwIiwidCI6IjFmNjM4NzAwLTIyZDItNGViYS1hNTA5LWVkZWJlNGY1OTc3ZiJ9&pageName=ReportSectionf1821c92443845631b1f";
     
     iframe.src = isMobile ? srcMobile : srcDesktop;
   }
