@@ -39,7 +39,7 @@
     var iframe = document.getElementById("powerBiFrame");
     var isMobile = window.innerWidth <= 768;
     var srcMobile = "https://app.powerbi.com/view?r=eyJrIjoiMWVlY2ZkODUtMzRhOS00YTc0LTlkYjEtMjZjNWQwYjA3YWYwIiwidCI6IjFmNjM4NzAwLTIyZDItNGViYS1hNTA5LWVkZWJlNGY1OTc3ZiJ9&pageName=ReportSectionf1821c92443845631b1f";
-    var srcDesktop = "https://app.powerbi.com/reportEmbed?reportId=a623458c-5dad-4bce-8a76-22ea6412ddeb&autoAuth=true&embeddedDemo=true";
+    var srcDesktop = "https://app.powerbi.com/view?r=eyJrIjoiYTI2YjYxYWUtMjlkOC00NmM5LWE3NGUtN2FhMDY1NjM5NjI2IiwidCI6IjFmNjM4NzAwLTIyZDItNGViYS1hNTA5LWVkZWJlNGY1OTc3ZiJ9";
 
     iframe.src = isMobile ? srcMobile : srcDesktop;
   });
