@@ -31,8 +31,19 @@
 
 <h2>Informe de Power BI</h2>
 <div class="iframe-container">
-  <iframe id="powerBiFrame" title="Nuevo Reporte" src="https://app.powerbi.com/view?r=eyJrIjoiMWVlY2ZkODUtMzRhOS00YTc0LTlkYjEtMjZjNWQwYjA3YWYwIiwidCI6IjFmNjM4NzAwLTIyZDItNGViYS1hNTA5LWVkZWJlNGY1OTc3ZiJ9&pageName=ReportSectionf1821c92443845631b1f" frameborder="0" allowFullScreen="true"></iframe>
+  <iframe id="powerBiFrame" title="Power BI Report" frameborder="0" allowFullScreen="true"></iframe>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var iframe = document.getElementById("powerBiFrame");
+    var isMobile = window.innerWidth <= 768;
+    var srcMobile = "https://app.powerbi.com/view?r=eyJrIjoiMWVlY2ZkODUtMzRhOS00YTc0LTlkYjEtMjZjNWQwYjA3YWYwIiwidCI6IjFmNjM4NzAwLTIyZDItNGViYS1hNTA5LWVkZWJlNGY1OTc3ZiJ9&pageName=ReportSectionf1821c92443845631b1f";
+    var srcDesktop = "https://app.powerbi.com/reportEmbed?reportId=a623458c-5dad-4bce-8a76-22ea6412ddeb&autoAuth=true&embeddedDemo=true";
+
+    iframe.src = isMobile ? srcMobile : srcDesktop;
+  });
+</script>
 
 </body>
 </html>
