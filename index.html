@@ -35,14 +35,20 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
+  function setIframeSource() {
     var iframe = document.getElementById("powerBiFrame");
     var isMobile = window.innerWidth <= 768;
     var srcMobile = "https://app.powerbi.com/view?r=eyJrIjoiMWVlY2ZkODUtMzRhOS00YTc0LTlkYjEtMjZjNWQwYjA3YWYwIiwidCI6IjFmNjM4NzAwLTIyZDItNGViYS1hNTA5LWVkZWJlNGY1OTc3ZiJ9&pageName=ReportSectionf1821c92443845631b1f";
     var srcDesktop = "https://app.powerbi.com/view?r=eyJrIjoiYTI2YjYxYWUtMjlkOC00NmM5LWE3NGUtN2FhMDY1NjM5NjI2IiwidCI6IjFmNjM4NzAwLTIyZDItNGViYS1hNTA5LWVkZWJlNGY1OTc3ZiJ9";
-
+    
     iframe.src = isMobile ? srcMobile : srcDesktop;
-  });
+  }
+
+  // Set the iframe source when the DOM is fully loaded
+  document.addEventListener("DOMContentLoaded", setIframeSource);
+
+  // Update the iframe source when the window is resized
+  window.addEventListener("resize", setIframeSource);
 </script>
 
 </body>
